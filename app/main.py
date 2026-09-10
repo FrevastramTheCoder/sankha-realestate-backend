@@ -45,7 +45,7 @@ logging.basicConfig(
         logging.StreamHandler(),
     ],
 )
-logger = logging.getLogger("nyumbasalama")
+logger = logging.getLogger("sankha-realestate")
 
 
 @asynccontextmanager
@@ -72,15 +72,23 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# ============================================================
+# CORS — Allowed Origins
+# ============================================================
 _configured_origins = [
+    # Local development
     "http://localhost:3000",
     "http://localhost:3001",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:3001",
+    # Production - Netlify (Sankha RealEstate)
+    "https://dsmnyumbasalama.netlify.app",
     "https://sankha-realestate.netlify.app",
+    # Legacy domains
     "https://nyumbasalama.com",
     "https://www.nyumbasalama.com",
     "https://api.nyumbasalama.com",
+    # Env-based
     os.getenv("FRONTEND_URL", ""),
 ]
 ALLOWED_ORIGINS = list(dict.fromkeys(origin for origin in _configured_origins if origin))
