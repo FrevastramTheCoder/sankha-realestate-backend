@@ -10,6 +10,8 @@ from fastapi.staticfiles import StaticFiles
 # ✅ load_dotenv LAZIMA iwe KABLA ya imports za app
 load_dotenv()
 
+# ✅ MUHIMU: Import models ili Base.metadata ijue tables zote
+from app import models  # noqa: F401
 from app.database import SessionLocal, init_db
 from app.services.seed import seed_admin
 from app.routers import (
@@ -48,20 +50,20 @@ logger = logging.getLogger("nyumbasalama")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("Starting NyumbaSalama API")
+    logger.info("Starting Sankha RealEstate API")
     init_db()
     db = SessionLocal()
     try:
         seed_admin(db)
     finally:
         db.close()
-    logger.info("NyumbaSalama API is ready")
+    logger.info("Sankha RealEstate API is ready")
     yield
-    logger.info("NyumbaSalama API stopped")
+    logger.info("Sankha RealEstate API stopped")
 
 
 app = FastAPI(
-    title="NyumbaSalama API",
+    title="Sankha RealEstate API",
     description="Student accommodation platform",
     version="2.0.0",
     docs_url="/docs",
@@ -75,6 +77,7 @@ _configured_origins = [
     "http://localhost:3001",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:3001",
+    "https://sankha-realestate.netlify.app",
     "https://nyumbasalama.com",
     "https://www.nyumbasalama.com",
     "https://api.nyumbasalama.com",
@@ -143,8 +146,8 @@ for current_router in (geo.router, accommodations.router, universities.router):
 async def root():
     return {
         "success": True,
-        "message": "NyumbaSalama API is running",
-        "application": "NyumbaSalama",
+        "message": "Sankha RealEstate API is running",
+        "application": "Sankha RealEstate",
         "version": "2.0.0",
         "status": "online",
         "endpoints": {
@@ -153,7 +156,6 @@ async def root():
             "auth": "/auth",
             "images": "/images",
             "uploads": "/uploads",
-            "chat": "/chat",
         },
     }
 
@@ -163,7 +165,7 @@ async def health_check():
     return {
         "success": True,
         "status": "healthy",
-        "application": "NyumbaSalama API",
+        "application": "Sankha RealEstate API",
         "version": "2.0.0",
         "cors": {"enabled": True, "origins": ALLOWED_ORIGINS},
         "uploads": {
@@ -178,7 +180,6 @@ async def health_check():
             "universities": True,
             "accommodations": True,
             "geo": True,
-            
         },
     }
 
