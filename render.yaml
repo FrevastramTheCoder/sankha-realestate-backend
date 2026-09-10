@@ -1,40 +1,32 @@
 services:
   - type: web
-    name: nyumba-salama-fastapi
+    name: sankha-realestate-api
     runtime: python
-    repo: https://github.com/sankhathecoder7-cyber/nyumba-salama-backend
+    repo: https://github.com/FrevastramTheCoder/sankha-realestate-backend
     plan: free
     branch: main
-
     buildCommand: pip install -r requirements.txt
-
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-
     envVars:
-
       - key: PYTHON_VERSION
         value: 3.11.9
-
       - key: DATABASE_URL
-        value: sqlite:///./nyumbasalama.db
-
+        value: sqlite:///./sankha-realestate.db
+      - key: DEBUG
+        value: "False"
+      - key: FRONTEND_URL
+        value: http://localhost:3000
       - key: JWT_SECRET
         sync: false
-
       - key: GEOCODING_ENABLED
-        value: true
-
+        value: "true"
       - key: GEOCODER_BASE_URL
         value: https://nominatim.openstreetmap.org
-
       - key: GEOCODER_USER_AGENT
-        value: NyumbaSalama/1.0
-
+        value: SankhaRealEstate/1.0
       - key: ROUTING_ENABLED
-        value: true
-
+        value: "true"
       - key: ROUTING_BASE_URL
         value: https://router.project-osrm.org
-
       - key: ROUTING_SUPPORTED_MODES
         value: driving
